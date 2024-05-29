@@ -16,7 +16,7 @@ spine.pdf
 
 ## test files:
 build/
-testfiles/**/*.pdf
+testfiles/
 
 ## Core latex/pdflatex auxiliary files:
 *.aux
