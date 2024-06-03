@@ -1,11 +1,9 @@
 % !TeX root = ../thuthesis-example.tex
 
-\chapter{光电倍增管的物理过程与电荷模型}
+\chapter{MCP-PMT 的带光强电荷模型}
 
-\section{光电倍增管的物理过程}
-
-\subsection{20 寸 MCP-PMT 中的物理过程}\label{sec:mcp-pmt-process}
-
+\section{MCP-PMT 的单光电子电荷模型}
+\subsection{MCP-PMT 中的物理过程}\label{sec:mcp-pmt-process}
 PMT 的探测效率取决于两个关键因素：量子效率 （Quantum Efficiency，简称 QE）与收集效率（Collection Efficiency，简称 CE）。
 其中，QE 为 PMT 光阴极发射的光电子与入射光子数的比值，CE 为经过倍增后，阳极收集到的电子数量与入射光电子数量的比值。
 
@@ -23,7 +21,7 @@ MCP 的长通道截面积占横截面的比例称为开口比 $A$。
 
 MCP-PMT 的主要噪声来源为离子反馈。即使 MCP-PMT 需要内部近似真空的工作条件，但仍存余少许的气体分子。
 气体分子被电离，在高压电场中与倍增电子运动方向相反，既可能撞击壁产生二次电子被阳极收集，
-也可能反向加速直至撞击光阴极，由于渡越时间较电子长，故将与主峰后形成次级脉冲，且还能够对光阴极材料造成损伤。
+也可能反向加速直至撞击光阴极，由于从产生到被收集的时间（渡越时间）较电子长，故将与主峰后形成次级脉冲，且还能够对光阴极材料造成损伤。
 如果延长加速通道或者提高高压，这些脉冲也将得到放大，为了有效提高信噪比，常常使用两层 MCP 并使通道倾角对称。
 由于在正离子与电子运动方向上引入了反角的设计，速度较小的反馈离子更难以进入与产生处对称的另一级 MCP，
 从而有效提高信噪比，同时对电子再次倍增，获得较大的增益\cite{MaterialStore2010}。
@@ -54,7 +52,6 @@ MCP-PMT 的主要噪声来源为离子反馈。即使 MCP-PMT 需要内部近似
 其中二项式分布需要依据材料，选择对应的随机变量上限 $M$，在实际未知材料性质的情况下使用泊松分布是更合适的。
 
 \subsection{单光电子电荷响应}\label{sec:spe-charge}
-
 在 8 寸 MCP-PMT 的单光电子电荷响应研究\cite{wengSingleElectronCharge2024}中，电子进孔倍增的电荷响应采用 Gamma 分布描述。
 这是因为在每一次倍增中，倍增电子的个数均服从泊松分布，并依次级联，
 这种级联泊松最终可以用 Gamma 分布相较于其他常用分布（例如高斯分布）更好地近似。
@@ -98,7 +95,8 @@ Tweedie 分布是一种特殊的指数族分布，由 $\xi$ 调节分布的种�
 \end{align}
 
 对于只在表面弹性散射或进入涂层材料原子核但被散射出涂层的电子，以及没有与涂层相互作用而直接进入 MCP 进行倍增的电子，
-它们没有在涂层表面进行倍增，彼此的区别在于飞行径迹与渡越时间不同，从而对渡越时间展宽产生贡献。
+它们没有在涂层表面进行倍增，彼此的区别在于飞行径迹与渡越时间（transition time，以下简称 TT）不同，
+从而对渡越时间展宽（transition time spread， 以下简称 TTS）产生贡献。
 它们在 MCP 中的倍增行为相同，电荷增益可以使用同一个 Gamma 分布 $\Gamma(\alpha, \beta)$ 来描述。
 该分布作为单光电子进入 MCP 倍增的电荷结果，直接表示了 MCP-PMT 对单光电子的增益水平，
 定义增益 $Q_1\equiv\frac{\alpha}{\beta}$ 与分辨率 $\eta\equiv\frac{\sqrt{\alpha/\beta^2}}{\alpha/\beta}=\frac{1}{\sqrt{\alpha}}$。
@@ -133,7 +131,6 @@ Tweedie 分布是一种特殊的指数族分布，由 $\xi$ 调节分布的种�
 本研究中拟合均采取这一建议区间。
 
 \section{分区间数据的拟合方法}
-
 由于一次激光刻度取数中，电荷计数能够达到数万甚至数十万，
 直接对每个计数进行拟合的内存消耗与效率极不理想。
 如果能够以尽可能接近电荷模型原始概率分布的分区间方式，
@@ -141,7 +138,6 @@ Tweedie 分布是一种特殊的指数族分布，由 $\xi$ 调节分布的种�
 将有约三个数量级的效率提升。
 
 \subsection{分区间方法}
-
 常用的分区间包括平方根方法、Sturges 公式、Rice 准则、Scott 准则、Terrell-Scott 准则、Doane 公式、Freedman-Diaconis 准则等。
 
 \begin{table}
@@ -150,15 +146,15 @@ Tweedie 分布是一种特殊的指数族分布，由 $\xi$ 调节分布的种�
     \resizebox{\textwidth}{!}{
     \begin{tabular}{llll}
     \toprule
-    方法                   & 区间数 & 区间宽 & 优势与适用范围 \\
+    方法 & 区间数 & 区间宽 & 优势与适用范围 \\
     \midrule
-    平方根方法             & $k=\lceil\sqrt{n}\rceil$                   & - & 简单                  \\
-    Sturges 公式           & $k=\lceil\log_2n\rceil+1$                  & - & 正态分布；样本数量适中 \\
-    Rice 准则              & $k=\lceil2\sqrt[3]{n}\rceil$               & - & 简单                   \\
-    Scott 准则             & - &  $h=\frac{3.49\hat{\sigma}}{\sqrt[3]{n}}$  & 简单；正态分布          \\
-    Terrell-Scott 准则     & $k=\sqrt[3]{2n}$ & - & 渐进极小均方误差的积分；适用于非正态分布           \\
-    Doane 公式             & \makecell{$k=1+\log_2(n)+\log_2\left(1+\frac{|g_1|}{\sigma_{g_1}}\right)$\\$g_1$为偏度，$\sigma_{g_1}=\sqrt{\frac{6(n-2)}{(n+1)(n+3)}}$} & - & 基于 Sturges 公式；使用偏度，适用于非正态分布 \\
-    Freedman-Diaconis 准则 & - & \makecell{$h=2\frac{\mathrm{IQR}(x)}{\sqrt[3]{n}}$\\IQR 为四分位距} & 对离群值不敏感；考虑偏度，适用于非正态分布 \\
+    平方根方法 & $k=\lceil\sqrt{n}\rceil$ & ------ & 简单 \\
+    Sturges 公式 & $k=\lceil\log_2n\rceil+1$  & ------ & \makecell[l]{正态分布；\\样本数量适中} \\
+    Rice 准则 & $k=\lceil2\sqrt[3]{n}\rceil$ & ------ & 简单 \\
+    Scott 准则 & ------ & $h=\frac{3.49\hat{\sigma}}{\sqrt[3]{n}}$  & \makecell[l]{简单；\\正态分布} \\
+    Terrell-Scott 准则 & $k=\sqrt[3]{2n}$ & ------ & \makecell[l]{渐进极小均方误差的积分；\\适用于非正态分布}   \\
+    Doane 公式 & \makecell{$k=1+\log_2(n)+\log_2\left(1+\frac{|g_1|}{\sigma_{g_1}}\right)$\\$g_1$偏度，$\sigma_{g_1}=\sqrt{\frac{6(n-2)}{(n+1)(n+3)}}$} & ------ & \makecell[l]{基于 Sturges 公式；\\适用于非正态分布} \\
+    Freedman-Diaconis 准则 & ------ & \makecell[l]{$h=2\frac{\mathrm{IQR}(x)}{\sqrt[3]{n}}$\\IQR四分位距} & \makecell[l]{对离群值不敏感；\\适用于非正态分布} \\
     \bottomrule
     \end{tabular}}\label{tab:histogram}
 \end{table}
@@ -171,7 +167,6 @@ Tweedie 分布是一种特殊的指数族分布，由 $\xi$ 调节分布的种�
 综上所述，本研究中使用 Freedman-Diaconis 准则来对电荷计数进行分区间，再进行拟合。
 
 \subsection{最小二乘法}
-
 不妨约定 $q$ 为自变量，$q_i$ 表示第 $i$ 个直方图区间的自变量闭区间，
 $n_i$ 表示第 $i$ 个直方图区间的实际计数，或称为频数，总事例数 $N=\sum_{i}n_i$；
 $e_i$ 表示第 $i$ 个直方图区间的预期计数，或称为预期频数，可由下式给出：
@@ -220,7 +215,6 @@ $e_i$ 表示第 $i$ 个直方图区间的预期计数，或称为预期频数，
 从而可以近似认为拟合得到的 $\chi^2$ 结果服从卡方分布，得到模型的合理性估计。
 
 \subsection{极大似然法}
-
 同样约定 $q$ 为自变量，$q_i$ 表示第 $i$ 个直方图区间的自变量闭区间，共有 $m$ 个区间，
 $n_i$ 表示第 $i$ 个直方图区间的频数，总事例数 $N=\sum_{i}^{m}n_i$，$\boldsymbol{n}=(n_1, n_2, \ldots, n_m)$ 代表各区间的频数向量，
 $e_i$ 表示第 $i$ 个直方图区间的预期频数，各区间预期频数使用 $\boldsymbol{e}$ 表示，可由下式给出：
@@ -258,7 +252,6 @@ $e_i$ 表示第 $i$ 个直方图区间的预期频数，各区间预期频数使
 始终具有良定义，但由于需要计算对数，计算开销更大，在复杂电荷模型的假设下优化更加困难。
 
 \section{傅里叶变换光强刻度}\label{sec:fourier}
-
 处于三个原因，考虑光强的刻度方法有被引入的必要性：
 \begin{enumerate}
     \item 在 PMT 的刻度与实际运行中，可能遇到光强较强以至于多个光电子情形不可忽略甚至占主要成分的情况；
@@ -271,8 +264,7 @@ $e_i$ 表示第 $i$ 个直方图区间的预期频数，各区间预期频数使
 从而在电荷谱的能道较高范围内尽可能消除多光电子的贡献对长尾参数的影响，
 提高目标 MCP-PMT 的增益刻度准确性。
 
-\subsection{任意光电子电荷谱}\label{sec:dft}
-
+\subsection{任意光电子数电荷谱}\label{sec:dft}
 光电子个数服从期望为 $\mu$ 的泊松分布，即：
 \begin{equation}
     P(\text{PE}=n) = \pi(n;\mu)=\sum_{i=0}^{+\infty}\frac{\mu^{n}}{n!}\cdot e^{-\mu}
@@ -309,7 +301,7 @@ $e_i$ 表示第 $i$ 个直方图区间的预期频数，各区间预期频数使
     \label{eq:pe-charge}
 \end{equation}
 
-其中 $\tilde{\cdot}(p)$ 代表函数 $\cdot$ 经过 $\mathcal{F}$ 后在另一个数域 ${p}$ 上的数值。
+其中 $\tilde{\cdot}(p)$ 代表函数 $\cdot$ 经过 $\mathcal{F}$ 后在另一个数域 $\{p\}$ 上的数值。
 考虑~\eqref{eq:pe-charge} 补全 0 个光电子时的无穷级数求和：
 \begin{equation}
     \begin{aligned}
@@ -341,7 +333,6 @@ $e_i$ 表示第 $i$ 个直方图区间的预期频数，各区间预期频数使
 \end{equation}
 
 \subsection{复合 Simpson 数值积分}
-
 借助~\ref{sec:dft} 所述的方法，一组参数已经能够利用 FFT 与 IFFT 映射到一系列采样点上的概率密度函数值。
 为了得到原电荷谱上特定区间内的预测频数，需要使用数值积分方法。
 常用的数值积分方法包括：矩形法，Lagrange 插值法与 Newton-Cotes 插值法等，
@@ -367,7 +358,7 @@ $e_i$ 表示第 $i$ 个直方图区间的预期频数，各区间预期频数使
     \frac{2}{n}\sum_{i=1}^{n/2}f^{(4)}(\xi_i)=f^{(4)}(\xi),\quad\xi\in\left[\min(\xi_i), \max(\xi_i)\right].
 \end{equation}
 
-依次给出~\eqref{eq:simpson} 的误差项为 $-\frac{nh^5}{180}f^{(4)}(\xi)=-\frac{(b-a)h^4}{180}f^{(4)}(\xi)$，
+依此给出~\eqref{eq:simpson} 的误差项为 $-\frac{nh^5}{180}f^{(4)}(\xi)=-\frac{(b-a)h^4}{180}f^{(4)}(\xi)$，
 与原函数的四阶导数成正比，因此当且仅当对于三次及以下多项式，其误差严格为 0，或称为代数精度为 3。
 
 复合 Simpson 积分法只需要使用特定点的函数值，在细分区间较多、每段区间较平滑的函数上，它的表现良好，
@@ -377,7 +368,6 @@ Freedman–Diaconis 准则给出的区间宽 $h\propto n^{-1/3}$，
 对于统计量越大的电荷刻度数据，原电荷谱的分区间数越大、间距越小，复合辛普森积分法效果越好。
 
 \subsection{傅里叶变换的准确度与性能}
-
 计算机并不能够对连续的 $S_{\text{total}}(q)$ 函数进行傅里叶变换，只能够使用有限离散傅里叶变换（Discrete Fourier Transformation，以下简称 DFT）对其进行近似，
 并使用逆有限离散傅里叶变换（Inverse Discrete Fourier Transformation，以下简称 IDFT）。
 应当从准确度与性能方面进行考量。
@@ -399,3 +389,11 @@ DFT 与 IDFT 结合的方法能够在离散距离趋近于无穷小时的极限�
 综上所述，傅里叶变换刻度方法的本质优势为避免卷积与无穷级数求和的时间复杂度与精度损失，
 而使用较多的采样点，同时满足数值积分、FFT 与 IFFT 准确度的要求，
 只需要付出较为廉价的内存代价，是理想的升级。
+
+\section{联合刻度}
+
+\subsection{电荷谱截断预处理}
+
+\subsection{评价指标：}
+
+\subsection{入射光强与角度对单光电子谱的影响}
