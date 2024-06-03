@@ -4,13 +4,13 @@
 
 \section{MCP-PMT 的单光电子电荷模型}
 \subsection{MCP-PMT 中的物理过程}\label{sec:mcp-pmt-process}
-PMT 的探测效率取决于两个关键因素：量子效率 （Quantum Efficiency，简称 QE）与收集效率（Collection Efficiency，简称 CE）。
+PMT 的探测效率取决于两个关键因素：QE 系数与 CE 系数。
 其中，QE 为 PMT 光阴极发射的光电子与入射光子数的比值，CE 为经过倍增后，阳极收集到的电子数量与入射光电子数量的比值。
 
 为了提高 QE 系数，在 JUNO 中使用的 20 寸 MCP-PMT 具有以下特征\cite{wangNewDesignLarge2012}：
 \begin{itemize}
-    \item 上半椭圆球面装配发射光阴极，下半椭圆球面装配反射光阴极，实现 $4\pi$ 立体角光电转换范围
-    \item 上下具有两块平行的微通道倍增管（MCP）
+    \item 上半椭圆球面装配发射光阴极，下半椭圆球面装配反射光阴极，实现接近 $4\pi$ 立体角光电转换范围
+    \item 上下具有两块平行的 MCP
 \end{itemize}
 
 在光子在 MCP-PMT 内部光阴极与材料发生相互作用产生光电子后，电子在椭圆形玻璃球壳内的电场作用下，向 MCP 迁移。
@@ -26,7 +26,7 @@ MCP-PMT 的主要噪声来源为离子反馈。即使 MCP-PMT 需要内部近似
 由于在正离子与电子运动方向上引入了反角的设计，速度较小的反馈离子更难以进入与产生处对称的另一级 MCP，
 从而有效提高信噪比，同时对电子再次倍增，获得较大的增益\cite{MaterialStore2010}。
 
-为了提高 CE 系数，在 MCP 入射处使用涂层（镍铬电极），使得入射的光电子可能能够在该表面进行倍增。
+为了提高 CE 系数，最初在 MCP 入射处使用涂层（镍铬电极），使得入射的光电子可能能够在该表面进行倍增。
 在后来的设计中，采用了 $\text{Al}_2\text{O}_3-\text{MgO}$ 复合涂层作为 ALD 涂层材料的方案，
 起到提高二次倍增电子数 $\delta_{ts}$ 与延长寿命的作用。
 
@@ -95,11 +95,10 @@ Tweedie 分布是一种特殊的指数族分布，由 $\xi$ 调节分布的种�
 \end{align}
 
 对于只在表面弹性散射或进入涂层材料原子核但被散射出涂层的电子，以及没有与涂层相互作用而直接进入 MCP 进行倍增的电子，
-它们没有在涂层表面进行倍增，彼此的区别在于飞行径迹与渡越时间（transition time，以下简称 TT）不同，
-从而对 TTS 产生贡献。
+它们没有在涂层表面进行倍增，彼此的区别在于飞行径迹与 TT 不同，从而对 TTS 产生贡献。
 它们在 MCP 中的倍增行为相同，电荷增益可以使用同一个 Gamma 分布 $\Gamma(\alpha, \beta)$ 来描述。
 该分布作为单光电子进入 MCP 倍增的电荷结果，直接表示了 MCP-PMT 对单光电子的增益水平，
-定义增益 $Q_1\equiv\frac{\alpha}{\beta}$ 与分辨率 $\eta\equiv\frac{\sqrt{\alpha/\beta^2}}{\alpha/\beta}=\frac{1}{\sqrt{\alpha}}$。
+因此可以定义增益 $Q_1\equiv\frac{\alpha}{\beta}$ 与分辨率 $\eta\equiv\frac{\sqrt{\alpha/\beta^2}}{\alpha/\beta}=\frac{1}{\sqrt{\alpha}}$。
 
 至此，MCP-PMT 的单光电子响应模型可以表示为：
 \begin{equation}
@@ -153,7 +152,7 @@ Tweedie 分布是一种特殊的指数族分布，由 $\xi$ 调节分布的种�
     Rice 准则 & $k=\lceil2\sqrt[3]{n}\rceil$ & ------ & 简单 \\
     Scott 准则 & ------ & $h=\frac{3.49\hat{\sigma}}{\sqrt[3]{n}}$  & \makecell[l]{简单；\\正态分布} \\
     Terrell-Scott 准则 & $k=\sqrt[3]{2n}$ & ------ & \makecell[l]{渐进极小均方误差的积分；\\适用于非正态分布}   \\
-    Doane 公式 & \makecell{$k=1+\log_2(n)+\log_2\left(1+\frac{|g_1|}{\sigma_{g_1}}\right)$\\$g_1$偏度，$\sigma_{g_1}=\sqrt{\frac{6(n-2)}{(n+1)(n+3)}}$} & ------ & \makecell[l]{基于 Sturges 公式；\\适用于非正态分布} \\
+    Doane 公式 & \makecell[l]{$k=1+\log_2(n)+\log_2\left(1+\frac{|g_1|}{\sigma_{g_1}}\right)$\\$g_1$偏度，$\sigma_{g_1}=\sqrt{\frac{6(n-2)}{(n+1)(n+3)}}$} & ------ & \makecell[l]{基于 Sturges 公式；\\适用于非正态分布} \\
     Freedman-Diaconis 准则 & ------ & \makecell[l]{$h=2\frac{\mathrm{IQR}(x)}{\sqrt[3]{n}}$\\IQR四分位距} & \makecell[l]{对离群值不敏感；\\适用于非正态分布} \\
     \bottomrule
     \end{tabular}}\label{tab:histogram}
@@ -373,7 +372,7 @@ Freedman–Diaconis 准则给出的区间宽 $h\propto n^{-1/3}$，
 应当从准确度与性能方面进行考量。
 
 DFT 与 IDFT 结合的方法能够在离散距离趋近于无穷小时的极限为连续傅里叶变换与其逆变换，因此当采样间隔足够小时，即可实现理想的近似。
-合适的间隔应当由~\ref{theo:shannon} 决定：
+合适的间隔应当由定理~\ref{theo:shannon} 决定：
 \begin{theorem}[Nyquist–Shannon 采样定理]\label{theo:shannon}
     对于具有带宽限制（即傅里叶变换后频率在有限区域以外为零）例如频率上限为 $f_s$ 的连续信号，使用周期冲激序列进行采样，
     若要完全还原初始连续信号的信息而不发生混叠，则应以不低于 $2f_s$ 的频率进行采样。

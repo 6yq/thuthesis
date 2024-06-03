@@ -2,7 +2,7 @@
 
 \chapter{结合波形分析的迭代刻度方法}
 
-\section{波形分析方法}
+\section{快速随机匹配追踪算法}\label{sec:fsmp}
 探测器中发生的事件光学或带电粒子信号完全依靠 PMT 读出，当短时间（例如单光电子电压波形半高宽时间窗）内只有一个光电子到达 PMT，
 则在相同的工作条件下，不同 PMT 具有相同的增益数量级，都能输出形状相似的负极性脉冲。然而，当至少两个光电子到达时，
 各光电子响应的电压波形将堆积，使得光电子的个数与各自的能量、到达时间分辨难度提高。
@@ -24,19 +24,18 @@
 
 为了实现事例重建的能量分辨率与位置分辨率提升，需要一个贝叶斯方法，使得能够在不同的单光电子数量、到达时间、电荷样本空间
 （这些空间是维度可变的）与单光电子响应波形找到最优解并给出误差分析。
-\subsection{快速随机匹配追踪算法}\label{sec:fsmp}
+
 快速随机匹配追踪算法（Fast Stochastic Matching Pursuit，以下简称 FSMP）\cite{wangFastStochasticMatching2024a}
 是一种可逆跳跃的马尔可夫链蒙特卡罗方法（Reversible Jump Markov Chain Monte Carlo），能够在不同维度的样本空间内采样，
 利用 Metropolis-Hastings 等采样方法，实现采样结果的跳跃（马尔可夫链状态的转移），最终收敛至马尔可夫链的稳态分布。
 
-针对打拿级 PMT，该方法认为单光电子电荷服从高斯分布，光电子数服从泊松分布，因此波形中电荷的概率分布模型为复合泊松-高斯分布。
+针对 dynode PMT，该方法认为单光电子电荷服从高斯分布，光电子数服从泊松分布，因此波形中电荷的概率分布模型为复合泊松-高斯分布。
 针对 MCP-PMT，该方法讲单光电子电荷模型分解为若干个高斯分布线性之和，用以表示光电子在涂层表面不同行为的分类，
 每一种高斯分布具有各自独立的期望与方差。
 
 该方法在使用单高斯电荷响应的前提下，于模拟数据集与 8 寸 MCP-PMT 激光测试的实际数据集上均得到了应用与验证，已经获得了能量与时间分辨率的提升。
 该工作给出结论，在兆电子伏特的液体闪烁体中微子探测中，该方法在理想情况下，可以提高可见能量的分辨率12\%。
 
-\subsection{波形分析迭代}
 \section{迭代刻度}
 FSMP 波形分析方法可以得到光电子携带电荷信息，作为刻度的电荷谱输入，因此刻度需要依赖波形分析。
 同时，如~\ref{sec:fsmp} 中所述，FSMP 同样依赖电荷模型作为采样依据，因此波形分析同样需要依赖刻度。
@@ -56,7 +55,7 @@ FSMP 波形分析方法可以得到光电子携带电荷信息，作为刻度的
 如~\ref{sec:fsmp} 所述，FSMP 波形分析方法的电荷模型假设为多高斯混合模型。
 基于~\ref{sec:spe-charge} 节中所述 Gamma-Tweedie 混合电荷模型，仍需要找到使用若干个高斯分布线性之和尽可能近似该分布的方法，
 才能够将第一轮刻度结果作为 FSMP 中采样电荷的依据，进行第二轮波形分析与刻度。
-d
+
 为了找到使用 $m\in\mathbb{N}^{+}$ 个高斯分布近似 Gamma-Tweedie 混合电荷模型的最优解，
 首先使用刻度得到的 Gamma-Tweedie 混合模型采样总样本数 $M$ 足够多的随机变量观测集 $\boldsymbol{x}=\{x_1\},\ 1\in{1, 2, \ldots, M}$，
 并使用 Expectation Maximization（EM）算法得到极大似然的一组高斯分布线性组合解：
@@ -64,16 +63,7 @@ d
     g_{\boldsymbol{\theta}}(x)=\sum_{j=1}^m\lambda_j\mathbf{N}(x;\mu_j, \sigma_j^2),\quad\sum_{j=1}^{m}\lambda_j=1.
 \end{equation}
 
-定义参数矩阵 $\boldsymbol{\theta}$：
-\begin{equation}
-    \boldsymbol{\theta}\equiv
-    \begin{bmatrix}
-        \lambda_1 & \lambda_2 & \cdots & \lambda_m \\
-        \mu_1 & \mu_2 & \cdots & \mu_m \\
-        \sigma_1^2 & \sigma_2^2 & \cdots & \sigma_m^2
-        \end{bmatrix}.
-\end{equation}
-
+给出参数集 $\boldsymbol{\theta}=(\{\lambda_{j}\},\{\mu_j\},\{\sigma_j^2\})$，
 还仍需要隐变量集 $\boldsymbol{Z}=\{Z_{ij}\}$ 表示样本 $x_i$ 是否来自第 $j$ 个高斯分布 $\mathbf{N}_j$：
 \begin{equation}
     Z_{ij}=
@@ -91,7 +81,7 @@ d
 \end{equation}
 
 实验中只能观测到样本集 $\boldsymbol{x}$，隐变量 $\boldsymbol{Z}$ 未知，
-因此只能利用~\eqref{eq:log-likelihood} 的期望，即 E-step。
+因此只能极大化~\eqref{eq:log-likelihood} 的期望，即 E-step。
 
 \subsubsection{E-step}
 在第 $t$ 步中，在已知 $\boldsymbol{\theta}$ 时的后验概率用 $p_{ij}$ 表示：
@@ -200,8 +190,8 @@ Steffenson 方式是一种不动点迭代的方法，将~\ref{sec:m-step} 中定
     \item[2.] 利用~\eqref{eq:vector-aitken} 只更新 $\boldsymbol{\phi}_{VA}^{(1)}$；
     \item[3.] 判断 $\boldsymbol{\phi}_{VA}^{(1)}$ 合法性（是否非负）：
     \begin{enumerate}
-        \item[3.1 ] 若合法，以 $\mu$ 升序重排，~\eqref{eq:update-lambda} 计算 $(\lambda^{(0)}, \boldsymbol{\phi}_{VA}^{(1)})$ 下的 $\lambda_{VA}^{(1)}$，
-        初始参数 $\boldsymbol{\theta}_{VA}^{(1)}=(\lambda_{VA}^{(1)}, \boldsymbol{\phi}_{VA}^{(1)})$ 重复 1-3；
+        \item[3.1 ] 若合法，以 $\mu$ 升序重排，~\eqref{eq:update-lambda} 计算 $(\lambda^{(0)}, \boldsymbol{\phi}_{VA}^{(1)})$ 下的 $\lambda^{(1)}$，
+        初始参数 $\boldsymbol{\theta}_{VA}^{(1)}=(\lambda^{(1)}, \boldsymbol{\phi}_{VA}^{(1)})$ 重复 1-3；
         \item[3.2 ] 若非法，利用 $M(\cdot)$ 更新初始参数 $\boldsymbol{\theta}^{(1)},\boldsymbol{\theta}^{(2)}, \boldsymbol{\theta}^{(3)}$ 重复 2-3；
     \end{enumerate}
     \item[4.] 直至 $||\theta_{VA}^{(t+1)}-\theta_{VA}^{(t)}||^2\leq\delta$ 结束迭代
