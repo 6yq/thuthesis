@@ -13,7 +13,7 @@
 例如超级神冈在 90\% 置信程度下测量了 $\nu_e\rightarrow\nu_\mu$ 相角与两个质量本征态的质量平方差\cite{fukudaEvidenceOscillationAtmospheric1998}，
 这意味着中微子必须存在质量。
 
-存在幺正矩阵庞蒂科夫-牧-中川-坂田矩阵（Pontecorvo–Maki–Nakagawa–Sakata matrix，或 PMNS matrix）描述中微子味与质量本征态的关系：
+存在幺正矩阵庞蒂科夫-牧-中川-坂田矩阵（Pontecorvo–Maki–Nakagawa–Sakata matrix 或 PMNS matrix）描述中微子味与质量本征态的关系\cite{Cahn2009Aug}：
 \begin{equation}
     \begin{bmatrix}
         v_1&v_2&v_3
@@ -23,7 +23,7 @@
         v_e&v_\mu&v_\tau
     \end{bmatrix}U.
 \end{equation}
-\begin{equation}
+\begin{equation}\label{eq:PMNS}
     U=
     \begin{bmatrix}
     c_{12}c_{13}&s_{12}c_{13}&s_{13}e^{-i\delta}\\-s_{12}c_{23}-c_{12}s_{23}s_{13}e^{i\delta}&c_{12}c_{23}-s_{12}s_{23}s_{13}e^{i\delta}&s_{23}c_{13}\\s_{12}s_{23}-c_{12}c_{23}s_{13}e^{i\delta}&-c_{12}s_{23}-s_{12}c_{23}s_{13}e^{i\delta}&c_{23}c_{13}
@@ -35,7 +35,7 @@
 \end{equation}
 
 其中引入混合角 $\theta_{ij},\enspace i<j$ 与 $s_{ij}=\sin{\theta_{ij}},\enspace c_{ij}=\cos{\theta_{ij}}$，$\delta$ 为 CP 破坏相角。
-它除了用来描述尚且未知的马约拉纳性的 $\alpha_1,\alpha_2$ 部分与卡比博-小林-益川矩阵（Cabibbo–Kobayashi–Maskawa matrix，或 CKM 矩阵）形式一致，
+~\eqref{eq:PMNS} 除了用来描述尚且未知是否成立的马约拉纳性的 $\alpha_1,\alpha_2$ 部分与卡比博-小林-益川矩阵（Cabibbo–Kobayashi–Maskawa matrix 或 CKM matrix）形式一致，
 剩余部分可以写成：
 \begin{equation}
     U_{res}=
@@ -61,11 +61,11 @@ $\theta_{12},\theta_{23}$ 都较大而 $\theta_{13}$ 较小，然而正是 $\the
 ~\eqref{eq:atm} 并不能确定 $m_3$ 质量的排序位置，还存在正质量顺序 $m_3>m_2>m_1$ 与倒序 $m_2>m_1>m_3$ 两种可能。
 不同的质量顺序与质量平方差参数对能谱的形状有直接的影响，为了精细测量参数并确定中微子质量顺序，需要积累足够多的反中微子事例，使用能谱拟合得到置信度到达 $3\sim5\sigma$ 的物理结果。
 
-\section{江门中微子实验与 OSIRIS 探测器}
+\section{江门中微子实验与 OSIRIS 探测器}\label{sec:osiris}
 江门地下中微子观测站（Jiangmen Underground Neutrino Observatory，以下简称 JUNO）\cite{JUNOPhysicsDetector2022}
 是位于地表 700 米以下的装载两万吨液体闪烁体的球形探测器，预期达到 $\sigma_E/E=3.02\%/\sqrt{E(\text{MeV})}$ 的能量分辨率，主要物理目标包括：
 \begin{itemize}
-    \item （首要目标）利用台山与阳江核电站的反应堆反中微子来确定中微子质量顺序；
+    \item 利用台山与阳江核电站的反应堆反中微子来确定中微子质量顺序；
     \item 探测地源与地外源的中微子与反中微子事例，例如太阳中微子、大气中微子、地球中微子、超新星中微子等；
     \item 寻找质子衰变 $p\rightarrow K^{+}+\overline{\nu}$、暗物质湮灭致中微子发射等新物理。
 \end{itemize}
@@ -78,7 +78,7 @@ JUNO 主要探测的物理反应包括：
 \end{align}
 
 ~\eqref{eq:ibd} 是逆 $\beta$ 衰变反应（inverse beta decay，以下简称 IBD）最主要的探测事例，~\eqref{eq:ees} 与 ~\eqref{eq:pes} 分别为中微子和电子与质子的弹性散射
-（elastic neutrino–electron/proton scattering，或 eES 与 pES）。
+（elastic neutrino–electron/proton scattering 或 eES 与 pES）。
 
 JUNO 中心装载两万吨液体闪烁体的球体称为中央探测器，使用 5000 支打拿级光电倍增管（dynode photomultiplier tube，以下简称 dynode PMT）
 与 12612 支微通道型光电倍增管（microchannel plate photomultiplier tube，以下简称 MCP-PMT）捕获中微子相互作用伴随的微弱闪烁光，
@@ -117,14 +117,14 @@ PMT 相较于半导体探测器等其他探测器件，具有灵敏度高的特�
 为了解决依赖国外公司 PMT 进口的高额成本问题，
 中国科学院高能物理研究所、北方夜视技术股份有限公司、中国科学院西安光学精密机械研究所等单位合作
 设计、研究、改进与生产了新型 MCP-PMT，在其量子效率（quantum efficiency，以下简称 QE）系数与收集效率
-（collection efficiency，以下简称 CE）系数等方面均做出了改进并有效降低了成本。
+（collection efficiency，以下简称 CE）系数等方面均做出了改进\cite{wangNewDesignLarge2012}并有效降低了成本。
 
 该 MCP-PMT 的突出特点包括：
 \begin{enumerate}
     \item 相较于常见的 dynode PMT，使用具有微小倾角的斜长微通道板（microchannel plate，以下简称 MCP）取代了分离式的多级打拿级，
     因此可以发生倍增物理过程的接触点变得连续，PMT 外接高压引线结构得到简化，电子的收集效率也较高；
     \item 相对于其他种类的 MCP-PMT，该 PMT 的特点为在 MCP 表面引入了主要成分为复合 $\text{Al}_2\text{O}_3-\text{MgO}$ 的
-    原子沉积涂层（atomic layer deposition，以下简称 ALD），该 ALD 涂层具有高二次电子倍增系数的特点，
+    原子沉积涂层（atomic layer deposition，以下简称 ALD），该 ALD 涂层具有高二次电子倍增系数的特点\cite{caoSecondaryElectronEmission2021}，
     即电子在该表面具有较高的激发二次电子的概率与二次电子数目的期望；
     \item 单位数目的电子在入射该 MCP-PMT 后，能够产生较一般其他类型 PMT 更多的倍增电子并在阳极被收集（比值定义为 CE），
     因此理论意义上具有更优秀的峰谷比与分辨率；
