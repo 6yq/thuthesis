@@ -13,11 +13,23 @@ PMT 的探测效率取决于两个关键因素：QE 系数与 CE 系数。
     \item 上下具有两块平行的 MCP
 \end{itemize}
 
+\begin{figure}
+    \centering
+    \includegraphics[width=0.75\linewidth]{scheme.jpg}
+    \caption{MCP-PMT 的结构设计图\cite{wangNewDesignLarge2012}}
+\end{figure}
+
 在光子在 MCP-PMT 内部光阴极与材料发生相互作用产生光电子后，电子在椭圆形玻璃球壳内的电场作用下，向 MCP 迁移。
 PMT 需要使用屏蔽线圈来抵消地磁场的影响，使得光电子能以尽量高的效率到达 MCP。
 MCP 使用加高压的长通道实现电子加速，并以一定的小角度倾斜，使得电子容易与壁材料发生相互作用实现倍增，
 同时又不使二次电子飞行轨迹与壁夹角过大致电子难以逸出。
 MCP 的长通道截面积占横截面的比例称为开口比 $A$。
+
+\begin{figure}
+    \centering
+    \includegraphics[width=0.85\linewidth]{process.jpg}
+    \caption{MCP-PMT 中物理过程\cite{chenPhotoelectronBackscatteringMicrochannel2018}}
+\end{figure}
 
 MCP-PMT 的主要噪声来源为离子反馈\cite{MaterialStore2010}。即使 MCP-PMT 需要内部近似真空的工作条件，但仍存余少许的气体分子。
 气体分子被电离，在高压电场中与倍增电子运动方向相反，既可能撞击壁产生二次电子被阳极收集，
@@ -36,6 +48,12 @@ MCP-PMT 的主要噪声来源为离子反馈\cite{MaterialStore2010}。即使 MC
     \item 进入涂层原子，发生散射而脱离涂层；
     \item 与涂层作用产生若干个能量较低的二级电子，亦称为真二次发射电子。
 \end{itemize}
+
+\begin{figure}
+    \centering
+    \includegraphics[width=0.85\linewidth]{mcp-pmt.png}
+    \caption{光电子与 MCP-PMT 的三种相互作用形式}
+\end{figure}
 
 在三种模式中，发生前两种散射模式的单个光电子均只能产生一个光电子，而发生二次倍增的电子则可以产生自然数个真二次发射电子，
 其个数 $\delta_{ts}$ 与入射电子能量 $E$、与涂层表面法线夹角 $\theta$ 存在依赖，由 Furman 模型给出：
@@ -404,7 +422,14 @@ PMT 中存在部分巨大脉冲，是由 $\mu$ 子穿过 PMT 玻璃时发射的�
 由于其对主峰后能道较高区域有贡献，因此需要引入一个电荷谱拟合时的上限截断。
 
 在还原山体、玻璃器材中包含的 $^{238}\text{U}\ /\ ^{232}\text{Th}\ /\ ^{40}\text{K}$ 含量与未灌装水之前的实验条件下，
-能够得到模拟结果，如图 所示。
+能够得到模拟结果，如图~\ref{fig:cut} 所示。
+
+\begin{figure}
+    \centering
+    \includegraphics[width=\linewidth]{cut.png}
+    \caption{Dynode PMT 与 MCP-PMT 各本底计数率\cite{zhangStudy20inchPMTs2022}}
+    \label{fig:cut}
+\end{figure}
 
 对于不同的数据集应当采取不同的策略。对于暗噪声采数，暗噪声计数率约 $10\sim50$ kHz，但由于阈值较高（通常有至少 5 个或 7 个或 20 个 PMT 同时过阈才记录波形的设置），
 按照暗噪声 50 kHz、偶然符合时间窗 50 ns 的假设进行估计，四重及以上偶然符合计数率有 $f_{coin}\ll1\enspace\text{Hz}$，实际触发率较低。
@@ -421,12 +446,12 @@ PMT 中存在部分巨大脉冲，是由 $\mu$ 子穿过 PMT 玻璃时发射的�
 
 液闪中的 U/Th 等元素及其衰变链的活度受到严格控制，但在循环过程中会引入氡，经过 3 次液体闪烁体循环后，
 OSIRIS 内部 $^{214}\text{Bi}-^{214}\text{Po}$ 特征事例的事例率 $\sim2\times10^{-3}\enspace\text{Hz}\ /\ 20\enspace\text{m}^3$ 
-升至 $\sim8\times10^{-2}\enspace\text{Hz}\ /\ 20\enspace\text{m}^3$，
-在 OSIRIS 探测器中相较于激光刻度采数的频率有 40 倍差距，在 JUNO 中央探测器中这一比例将更加明显，
+升至 $\sim1\times10^{-1}\enspace\text{Hz}\ /\ 20\enspace\text{m}^3$，
+在 OSIRIS 探测器中相较于激光刻度采数的频率有 50 倍差距，在 JUNO 中央探测器中这一比例将更加明显，
 因此尤其是 JUNO 中央探测器需要在液体闪烁体循环后氡几乎消耗殆尽时再进行激光采数。
 
 本研究中使用 OSIRIS 的激光刻度数据，综合考虑各本底，选取较简单的 5 倍主峰截断来近似 5 倍 PE 截断。
 
-\subsection{评价指标：}
+\subsection{评价指标：$\chi^2/\text{ndf}$}\label{sec:criterion}
 
 \subsection{入射光强与角度对单光电子谱的影响}
