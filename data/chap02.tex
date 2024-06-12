@@ -29,6 +29,7 @@ MCP 的长通道截面积占横截面的比例称为开口比 $A$。
     \centering
     \includegraphics[width=0.85\linewidth]{process.jpg}
     \caption{MCP-PMT 中物理过程\cite{chenPhotoelectronBackscatteringMicrochannel2018}}
+    \label{fig:pulses}
 \end{figure}
 
 MCP-PMT 的主要噪声来源为离子反馈\cite{MaterialStore2010}。即使 MCP-PMT 需要内部近似真空的工作条件，但仍存余少许的气体分子。
@@ -196,6 +197,7 @@ $e_i$ 表示第 $i$ 个直方图区间的预期计数，或称为预期频数，
 将直方图的每一个区间都视为一次测量，测量结果为频数，可以定义 $\chi^2(\boldsymbol{\theta})$：
 \begin{equation}
     \chi^2(\boldsymbol{\theta})\equiv\sum_{i}\frac{\left[n_i-e_i(\boldsymbol{\theta})\right]^2}{\sigma_i^2}
+    \label{eq:chi-sq}
 \end{equation}
 
 其中 $\sigma_i^2$ 代表第 $i$ 个直方图区间的频数的方差。
@@ -269,7 +271,7 @@ $e_i$ 表示第 $i$ 个直方图区间的预期频数，各区间预期频数使
 始终具有良定义，但由于需要计算对数，计算开销更大，在复杂电荷模型的假设下优化更加困难。
 
 \section{傅里叶变换带光强电荷模型}\label{sec:fourier}
-处于三个原因，考虑光强的刻度方法有被引入的必要性：
+出于三个原因，考虑光强的刻度方法有被引入的必要性：
 \begin{enumerate}
     \item 在 PMT 的刻度与实际运行中，可能遇到光强较强以至于多个光电子情形不可忽略甚至占主要成分的情况；
     \item 由于本研究所考虑的 MCP-PMT 相较于传统打拿级 PMT，具有电荷长尾的效应，
@@ -407,7 +409,7 @@ DFT 与 IDFT 结合的方法能够在离散距离趋近于无穷小时的极限�
 而使用较多的采样点，同时满足数值积分、FFT 与 IFFT 准确度的要求，
 只需要付出较为廉价的内存代价，是理想的升级。
 
-\section{联合刻度}
+\section{刻度方法}
 
 \subsection{电荷谱截断预处理}\label{sec:cut}
 PMT 中存在部分巨大脉冲，是由 $\mu$ 子穿过 PMT 玻璃时发射的切伦科夫光与天然放射性本底造成的\cite{zhangStudy20inchPMTs2022}。
@@ -431,9 +433,10 @@ PMT 中存在部分巨大脉冲，是由 $\mu$ 子穿过 PMT 玻璃时发射的�
     \label{fig:cut}
 \end{figure}
 
-对于不同的数据集应当采取不同的策略。对于暗噪声采数，暗噪声计数率约 $10\sim50$ kHz，但由于阈值较高（通常有至少 5 个或 7 个或 20 个 PMT 同时过阈才记录波形的设置），
-按照暗噪声 50 kHz、偶然符合时间窗 50 ns 的假设进行估计，四重及以上偶然符合计数率有 $f_{coin}\ll1\enspace\text{Hz}$，实际触发率较低。
-认为在 4 倍单光电子（photoelectron 或 PE）水平下暗噪声触发率接近其他本底的 20 倍左右，可以认为成分较为单一。
+对于不同的数据集应当采取不同的策略。对于暗噪声采数，暗噪声计数率约 $10\sim50$ kHz，但由于阈值较高（通常有至少 3 个或 7 个或 20 个 PMT 同时过阈才记录波形的设置），
+按照暗噪声 50 kHz、偶然符合时间窗 50 ns 的假设进行估计，四重及以上偶然符合计数率有 $f_{coin}\ll1\enspace\text{Hz}$，实际触发率较低，
+因此暗噪声的电荷计数主要由三重及以下符合贡献。
+依据图~\ref{fig:cut} 可认为在 4 倍单光电子（photoelectron 或 PE）水平下暗噪声触发率接近其他本底的 20 倍左右，可以认为成分较为单一。
 
 对于激光等光源采数，例如 OSIRIS 现场激光刻度触发率为 1.5 kHz，单脉冲的期望水平为 $\mu=0.01$ PE\cite{junocollaborationDesignSensitivityJUNO2021}，
 对于~\ref{sec:osiris} 节中位于赤道平面上的激光调制位于 $75\%\sim78\%$ 强度，光电倍增管平均光子探测效率为 29.1\%\cite{JUNOPhysicsDetector2022}，
@@ -447,11 +450,23 @@ PMT 中存在部分巨大脉冲，是由 $\mu$ 子穿过 PMT 玻璃时发射的�
 液闪中的 U/Th 等元素及其衰变链的活度受到严格控制，但在循环过程中会引入氡，经过 3 次液体闪烁体循环后，
 OSIRIS 内部 $^{214}\text{Bi}-^{214}\text{Po}$ 特征事例的事例率 $\sim2\times10^{-3}\enspace\text{Hz}\ /\ 20\enspace\text{m}^3$ 
 升至 $\sim1\times10^{-1}\enspace\text{Hz}\ /\ 20\enspace\text{m}^3$，
-在 OSIRIS 探测器中相较于激光刻度采数的频率有 50 倍差距，在 JUNO 中央探测器中这一比例将更加明显，
+在 OSIRIS 探测器中相较于激光刻度采数的频率有 30 倍差距，但在 JUNO 中央探测器中这一比例将更微弱，
 因此尤其是 JUNO 中央探测器需要在液体闪烁体循环后氡几乎消耗殆尽时再进行激光采数。
 
 本研究中使用 OSIRIS 的激光刻度数据，综合考虑各本底，选取较简单的 5 倍主峰截断来近似 5 倍 PE 截断。
 
-\subsection{评价指标：$\chi^2/\text{ndf}$}\label{sec:criterion}
+\subsection{评价指标}\label{sec:criterion}
 
-\subsection{入射光强与角度对单光电子谱的影响}
+定义自由度 ndf 为数据点数与模型参数个数之差，对于样本来自于高斯分布的情况，$(\chi^2,\text{ndf})$ 服从卡方分布：
+\begin{equation}
+    p(\chi^{2},n)=\frac{1}{2^{n/2} \Gamma(n/2)}[\chi^{2}]^{n/2-1}e^{-\chi^{2}/2},\quad0\leq\chi^{2}\leq\infty 
+    \label{eq:chi-distribution}
+\end{equation}
+
+该种方法称为卡方检验，适用于拟合性检验与独立性检验。
+特别地，在 $n\rightarrow\infty$ 时，$\chi^2$ 趋近于自由度为 $n-1$ 的卡方分布。
+基于 $\alpha$ 显著性水平，定义 $\chi_\alpha^2$ 为关于 ndf 的临界函数，作为检验的卡方依据。
+
+对于拟合性检验，存在更直接的指标：$\chi^2/\text{ndf}$。~\eqref{eq:chi-sq} 指出 $\chi^2$ 代表数据点偏差平方与方差的比值，
+它与自由度 ndf 的比值代表平均意义上每个自由度拟合的相对偏差，在数据点较多的情况下也可近似为每个数据点拟合的相对偏差。
+一般可以认为 $\chi^2/\text{ndf}\le1$ 为极优的拟合，$\chi^2/\text{ndf}=3\sim5$ 为较好的拟合。
